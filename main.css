@@ -1,3 +1,19 @@
 #title {
-	color: blue;
+
+  color: red;
+  text-align: center;
+
+}
+
+td {
+
+border: 2px solid black;
+height: 100px;
+width: 100px;
+
+}
+
+#table {
+
+  padding-left: 460px;
 }
