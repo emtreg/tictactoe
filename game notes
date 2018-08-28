@@ -1,0 +1,150 @@
+***Check if player selection is valid:
+
+checkSelection
+
+store player selection in int player1_move
+check that tile number to see if it is empty
+while tile they choose is not empty:
+prompt player to pick another tile (invalid move)
+player1_move = tile
+make tile marker = 'X'
+change status of tile to filled
+
+***Check to see if player has won:
+
+gameResults
+
+*go through each row in the array
+initialize an empty count
+if there is an 'x' in marker- add one to count
+if count equals three: 
+message: Player 1 is the winner!
+else: reset count to zero and go to next row
+break
+
+*go through each column in the array:
+initialize an empty count 
+if there is an 'X' in marker- add to count
+if count equals three:
+player 1 wins
+else: reset count to zero and go to next column
+
+*check diagonals:
+check markers of 00 11 22:
+if their markers are all X: player 1 wins
+
+check markers 02, 11, 20:
+if their markers are all X: player 1 wins
+
+*check for a tie:
+go through entire array and check the empty/filled status of each tile:
+if they are all filled, there is a tie
+message: Tie
+break
+
+***Determine Player 2's next move:
+
+player2_selection
+
+*Find 2 O's and 1 Empty
+
+*go through each row in the array
+initialize an empty count 
+check each tile to see if marker is 'O'
+if count equals two and not all of the tiles in the row are filled:
+player2_move = the empty tile
+change status of tile to filled
+
+
+*go through each column in the array:
+initialize an empty count 
+check each tile to see if marker is 'O'
+if count equals two and not all of the tiles in the column are filled:
+player2_move = the empty tile
+make tile marker = 'O'
+change status of tile to filled
+
+*check diagonals:
+check markers of 00 11 22:
+initialize an empty count
+check markers of each tile
+if count equals 2 and not all are filled:
+player2_move = empty tile
+make tile marker = 'O'
+change status of tile to filled
+
+check markers 02, 11, 20:
+initialize an empty count
+check markers of each tile
+if count equals 2 and not all are filled:
+player2_move = empty tile
+make tile marker = 'O'
+change status of tile to filled
+
+
+*Find 2 X's and 1 Empty
+
+*go through each column in the array:
+initialize an empty count 
+check each tile to see if marker is 'X'
+if count equals two and not all of the tiles in the column are filled:
+player2_move = the empty tile
+make tile marker = 'O'
+change status of tile to filled
+
+*check diagonals:
+check markers of 00 11 22:
+initialize an empty count
+check markers of each tile
+if count equals 2 and not all are filled:
+player2_move = empty tile
+make tile marker = 'X'
+change status of tile to filled
+
+check markers 02, 11, 20:
+initialize an empty count
+check markers of each tile
+if count equals 2 and not all are filled:
+player2_move = empty tile
+make tile marker = 'X'
+change status of tile to filled
+
+*Make player2_move a random empty tile
+assign a random number to player2_move
+while that tile is not empty:
+assign another random number
+when a valid tile is found:
+make tile marker = 'O'
+set status of tile to filled
+
+
+
+If user clicks on a square:
+
+take the last two characters of the square's ID
+
+check the corresponding element in the array and see if the second element
+is "true" - this means that the square is empty
+
+if "false", alert the player that this square cannot be selected and prompt them to choose a different square
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

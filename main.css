@@ -1,7 +1,8 @@
 #title {
 
   color: red;
-  text-align: center;
+  padding-left: 550px;
+
 
 }
 
@@ -10,6 +11,17 @@ td {
 border: 2px solid black;
 height: 100px;
 width: 100px;
+cursor: pointer;
+/*font-family: Papyrus;
+text-align: center;
+font-size: 405%;
+font-weight: bold;*/
+
+
+
+
+
+
 
 }
 
@@ -17,3 +29,5 @@ width: 100px;
 
   padding-left: 460px;
 }
+
+
