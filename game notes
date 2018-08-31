@@ -119,14 +119,32 @@ set status of tile to filled
 
 
 
-If user clicks on a square:
+player clicks on square
+checks to see if this is a valid move
+if it is not- alert message
+if it is- mark the square and change corresponding array element to 'X' and false
+check to see if X has won
+check to see if there is a tie?
+if true: end
+if false: continue to O move
 
-take the last two characters of the square's ID
+check to see if there are O's in rows to win-
+if true:
+mark empty square 
+O has won
+if false: continue
 
-check the corresponding element in the array and see if the second element
-is "true" - this means that the square is empty
 
-if "false", alert the player that this square cannot be selected and prompt them to choose a different square
+check columns for O's- if false
+check diagonals for O's-if false
+check rows for X's
+check columns for X's
+check diagonals for X's
+
+random O move
+
+
+
 
 
 
