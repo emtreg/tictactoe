@@ -1,12 +1,14 @@
 
+//array to store marking and empty-status of each tile
 
 var array= [
 
 	[[null,true],[null,true],[null,true]], [[null,true],[null,true],[null,true]], 
 	[[null,true],[null,true],[null,true]]
 
-
 ];
+
+//generate table for new game and assign each tile an id
 
 function makeTable() {
 
@@ -23,6 +25,7 @@ function makeTable() {
 	}
 }
 
+//change background color of tile when hovered over
 
 function tileHover() {
 
@@ -45,6 +48,8 @@ function tileHover() {
 	});
 }
 
+//display marking for tile on board and change status of tile to non-empty
+
 
 function markTile(empty_tile_row, empty_tile_col, marking) {
 
@@ -59,17 +64,30 @@ function markTile(empty_tile_row, empty_tile_col, marking) {
 		array[empty_tile_row][empty_tile_col][0] = marking;
 		array[empty_tile_row][empty_tile_col][1] = false;
 
-			check_win_rows(marking);
-			check_win_colms(marking); 
-			check_win_Diagonals(marking);
-		
+			if(check_win_rows(marking) == true || 
+			check_win_colms(marking) == true ||
+			check_win_Diagonals1(marking) == true || 	
+			check_win_Diagonals2(marking) == true) {
+
+				return true;
+			}
+
+			// check_win_rows(marking);
+			// check_win_Diagonals1(marking);
+			// check_win_Diagonals1(marking);  	
+			// check_win_Diagonals2(marking); 
+				
+			return false;		
 }
 
+//validates that a player's tile selection is valid, if so marks the tile
 
 
 function playerMove() {
 
 	$(document).ready(function() {
+
+	//if (check_tie() == false) {
 
 		$("td").click(function() {
 
@@ -77,86 +95,50 @@ function playerMove() {
 			var rowNum = tileID.charAt(1);	
 			var colNum = tileID.charAt(2);
 
-			if(array[rowNum][colNum][1] == true) {
-				markTile(rowNum, colNum, 'X');
-
 				if(check_tie() == false) {
 
-					computerMove();
+					if(array[rowNum][colNum][1] == true) {
+						
+						if(markTile(rowNum, colNum, 'X') == true) {
+
+							$("td").off();
+							tileHover();
+							alert("Play again?");
+							//$(".alert").css("font-family": "Papyrus");
+
+						  } else {
+								if(check_tie() == false) {
+									setTimeout(function() { computerMove(); }, 500);
+							}
+						 }
+						
+					} else {
+						alert("Invalid move. Select another tile.");
+					}
 
 				} else {
-
-					alert("It's a tie!");
+					alert("It's a tie! Play again?");
+					 $("td").off();
+					 tileHover();
+  					
+					 return;
 				}
-				
-
-			} else {
-				alert("Invalid move. Select another tile.");
-			}		
-		});	
+		});
 	});
 }
 
+//generates appropriate move for computer based on game logic
+
+
 function computerMove() {
 
-	if (checkRows('O') == false) {
+	if(!checkRows('O') && !checkColumns('O') && !checkDiagonals1('O') && !checkDiagonals2('O')
+		&& !checkRows('X') && !checkColumns('X') && !checkDiagonals1('X') && !checkDiagonals2('X')) {
 
-		//alert("check rows for O is false");
-
-		if (checkColumns('O') == false) {
-
-			//alert("check colms for O is false");
-
-			if (checkDiagonals1('O') == false) {
-
-				//alert("check diagonals1 for O is false");
-
-				if (checkDiagonals2('O') == false) {
-
-					//alert("check diagonals2 for O is false");
-
-					if (checkRows('X') == false) {
-
-						//alert("check rows for X is false");
-
-						if (checkColumns('X') == false) {
-
-							//alert("check colms for X is false");
-
-							if (checkDiagonals1('X') == false) {
-
-								//alert("check diagonals1 for X is false");
-
-								if (checkDiagonals2('X') == false) {
-
-									//alert("check diagonals2 for X is false");
-
-									randomCompMove();
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		randomCompMove();
 	}
-	
-	// checkDiagonals('O');
-	// checkRows('X');
-	// checkColumns('X');
-	// checkDiagonals('X');
-	// randomCompMove();
 
-	// if(checkColumns('O') == true) {
-
-	// 	return;
-	// }
-	// // checkDiagonals('O');
-	// // checkRows('X');
-	// // checkColumns('X');
-	// // checkDiagonals('X');
-	// randomCompMove();
-}
+//checks if other player is about to win in row - computer must choose remaining tile
 	
 function checkRows(marking) {
 
@@ -181,7 +163,6 @@ function checkRows(marking) {
 		if(marking_count == 2 && empty_count == 1) {
 			markTile(empty_tile_row, empty_tile_col, 'O');
 			return true;
-			break;
 						 
 		} else {
 			marking_count = 0;
@@ -193,6 +174,8 @@ function checkRows(marking) {
 
 	return false;
 }
+
+//checks if other player is about to win in column - computer must choose remaining tile
 
 
 function checkColumns(marking) {
@@ -215,10 +198,8 @@ function checkColumns(marking) {
 		}
 
 		if(marking_count == 2 && empty_count == 1) {
-
 			markTile(empty_tile_row, empty_tile_col, 'O');
 			return true;
-			break;
 								 
 		} else {
 			marking_count = 0;
@@ -230,6 +211,9 @@ function checkColumns(marking) {
 
 	return false;
 }
+
+//checks if other player is about to win on forward diagonal - computer must choose remaining tile
+
 
 function checkDiagonals1(marking) {
 
@@ -252,14 +236,14 @@ function checkDiagonals1(marking) {
 
 	if(marking_count == 2 && empty_count == 1) {
 		markTile(empty_tile_row, empty_tile_col, 'O');	
-		return true;
-		//break;
-								 
+		return true;							 
 	}
 
 	return false;
-
 }
+
+//checks if other player is about to win on backward diagonal - computer must choose remaining tile
+
 
 function checkDiagonals2(marking) {
 
@@ -282,14 +266,15 @@ function checkDiagonals2(marking) {
 
 	if(marking_count == 2 && empty_count == 1) {
 		markTile(empty_tile_row, empty_tile_col, 'O');
-		return true;
-		//break;	
-								 
+		return true;									 
 	}
 
 	return false;
 
 }
+
+//generates a random move for the computer
+
 
 function randomCompMove() {
 
@@ -307,6 +292,9 @@ function randomCompMove() {
 
 }
 
+//checks if a player has won horizontally across a row 
+
+
 function check_win_rows(marking) {
 
 	var marking_count = 0;
@@ -320,23 +308,27 @@ function check_win_rows(marking) {
 		}
 
 		if(marking == 'X' && marking_count == 3) {
-			alert("Player 1 has won!");
+			alert("Player 1 wins!");
+			//$("td").off();
 			return true;
-			break;
 						 
 		} else if(marking == 'O' && marking_count == 3) {
-			alert("Player 2 has won!");
+			alert("Player 2 wins!");
+			$("td").off();
+			tileHover();
+			//$("td").off();
+			alert("Play again?");
 			return true;
-			break;
-
-		} else {
-			marking_count = 0;
 			
+		} else {
+			marking_count = 0;			
 		}
 	}
 
 	return false;
 }
+
+//checks if a player has won vertically across a column
 
 
 function check_win_colms(marking) {
@@ -352,25 +344,29 @@ function check_win_colms(marking) {
 		}
 
 		if(marking == 'X' && marking_count == 3) {
-			alert("Player 1 has won!");
+			alert("Player 1 wins!");	
+			//$("td").off();			
 			return true;
-			break;
 						 
 		} else if(marking == 'O' && marking_count == 3) {
-			alert("Player 2 has won!");
+			alert("Player 2 wins!");
+			$("td").off();
+			tileHover();
+			//$("td").off();
+			alert("Play again?");			
 			return true;
-			break;
 
 		} else {
-			marking_count = 0;
-			
+			marking_count = 0;			
 		}
 	}
 
 	return false;
 }
 
-function check_win_Diagonals(marking) {
+//checks if a player has won on a forward diagonal
+
+function check_win_Diagonals1(marking) {
 
 	var marking_count = 0;
 	
@@ -378,61 +374,75 @@ function check_win_Diagonals(marking) {
 
 		if(array[i][j][0] == marking) {
 			marking_count++;
-
 		} 		
 	}
 
 	if(marking == 'X' && marking_count == 3) {
-		alert("Player 1 has won!");
-		return true;
-		//break;	
+		alert("Player 1 wins!");
+		//$("td").off();			
+		return true;		
 								 
 	} else if(marking == 'O' && marking_count == 3) {
-		alert("Player 2 has won!");
-		return true;
-		//break;
-	}
-
-	marking_count = 0;
-	
- 	for(var i=0, j=2; i<3; i++, j--) {
-
-		if(array[i][j][0] == marking) {
-			marking_count++;
-
-		} 		
-	}
-
-	if(marking == 'X' && marking_count == 3) {
-		alert("Player 1 has won!");
-		return true;
-		//break;	
-								 
-	} else if(marking == 'O' && marking_count == 3) {
-		alert("Player 2 has won!");
-		return true;
-		//break;
+		alert("Player 2 wins!");
+		$("td").off();
+		tileHover();
+		//$("td").off();
+		alert("Play again?");				
+		return true;	
 	}
 
 	return false;
 
 }
 
+//checks if a player has won on a backward diagonal
+
+function check_win_Diagonals2(marking) {
+
+	var marking_count = 0;
+	
+ 	for(var i=0, j=2; i<3; i++, j--) {
+		if(array[i][j][0] == marking) {
+			marking_count++;
+		} 		
+	}
+
+	if(marking == 'X' && marking_count == 3) {
+		alert("Player 1 wins!");
+		//$("td").off();
+		return true;				
+								 
+	} else if(marking == 'O' && marking_count == 3) {
+		alert("Player 2 wins!");
+		$("td").off();
+		tileHover();
+		//$("td").off();
+		alert("Play again?");	
+		return true;	
+	}
+
+	return false;
+
+}
+
+//checks for a tie
+
+
 function check_tie() {
 
 	for(var i = 0; i < 3; i++) {
 		for(var j = 0; j < 3; j++) {
 
-			if(array[i][j][1] != false) {
+			if(array[i][j][1] == true) {
 				return false;
-			} 		
+			} 
 		}
 	}
 
 	return true;
-	alert("It's a tie!");
-}
 
+	
+}
 
 tileHover();
 playerMove();
