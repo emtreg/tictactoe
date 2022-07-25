@@ -137,6 +137,7 @@ function computerMove() {
 
 		randomCompMove();
 	}
+}
 
 //checks if other player is about to win in row - computer must choose remaining tile
 	
